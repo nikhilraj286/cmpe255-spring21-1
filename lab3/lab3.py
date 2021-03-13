@@ -1,4 +1,6 @@
 import numpy as np
+from mlxtend.data import loadlocal_mnist
+import platform
 import os
 
 np.random.seed(42)
@@ -12,10 +14,22 @@ mpl.rc('ytick', labelsize=12)
 
 # Where to save the figures
 PROJECT_ROOT_DIR = "."
-IMAGE_DIR = "FIXME"
+IMAGE_DIR = "."
+
+X, y = loadlocal_mnist(
+            images_path='train-images-idx3-ubyte', 
+            labels_path='train-labels-idx1-ubyte')
+print('Dimensions: %s x %s' % (X.shape[0], X.shape[1]))
+print('\n1st row', X[0])
+
+# np.savetxt(fname='images.csv', 
+#            X=X, delimiter=',', fmt='%d')
+# np.savetxt(fname='labels.csv', 
+#            X=y, delimiter=',', fmt='%d')
 
 def save_fig(fig_id, tight_layout=True):
-    path = os.path.join(PROJECT_ROOT_DIR, "images", IMAGE_DIR, fig_id + ".png")
+    # path = os.path.join(PROJECT_ROOT_DIR, "images", IMAGE_DIR, fig_id + ".png")
+    path = os.path.join(IMAGE_DIR, fig_id + ".png")
     print("Saving figure", fig_id)
     if tight_layout:
         plt.tight_layout()
@@ -25,7 +39,7 @@ def save_fig(fig_id, tight_layout=True):
 def random_digit():
     some_digit = X[36000]
     some_digit_image = some_digit.reshape(28, 28)
-    plt.imshow(some_digit_image, cmap = mpl.cm.binary,
+    plt.imshow(some_digit_image, cmap = 'binary',
             interpolation="nearest")
     plt.axis("off")
 
@@ -33,7 +47,7 @@ def random_digit():
     plt.show()
 
    
-def load_and_sort()
+def load_and_sort():
     try:
         from sklearn.datasets import fetch_openml
         mnist = fetch_openml('mnist_784', version=1, cache=True)
@@ -43,6 +57,7 @@ def load_and_sort()
         from sklearn.datasets import fetch_mldata
         mnist = fetch_mldata('MNIST original')
     mnist["data"], mnist["target"]
+    return mnist
 
 
 def sort_by_target(mnist):
@@ -69,4 +84,9 @@ def train_predict(some_digit):
     
     
 def calculate_cross_val_score():
-    # TODO
+    random_digit()
+    # save_fig('train-images-idx3-ubyte')
+    
+
+
+calculate_cross_val_score()
